@@ -20,6 +20,6 @@ $ npm start
 # 이후 localhost:3000 으로 접속
 ```
 
-![](docs/images/how-how-to-install.png)
+![](docs/images/how-to-install.png)
 
 ![](docs/images/init-page.png)
