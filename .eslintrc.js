@@ -8,7 +8,7 @@ module.exports = {
   extends: ['airbnb-base', 'plugin:prettier/recommended'],
   plugins: ['jest'],
   parserOptions: {
-    ecmaVersion: 13,
+    ecmaVersion: 12,
   },
   rules: {},
 };
