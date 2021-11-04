@@ -33,3 +33,5 @@ $ npm start
 ![](docs/images/heroku.png)
 
 ## 협업 방법: GitHub Flow
+
+GitHub Flow 문서 참조.
