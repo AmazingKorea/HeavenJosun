@@ -17,12 +17,12 @@
         <div style="margin-left:10px; display: inline-flex">
             <div style="display: flex">
                 <a href="./login" class="button login-button"
-                    style="margin-left: 16px; width:120px; font-size: 14px; font:Noto Sans; font-weight:700;"
+                    style="margin-left: 16px;  font-size: 14px; font:Noto Sans; font-weight:700; text-transform: unset;"
                     role="button">
                     Log In
                 </a>
                 <a href="somewhereSignUp" class="button signup-button"
-                    style="margin-left: 16px; width:120px; font-size: 14px; font:Noto Sans; font-weight:700;"
+                    style="margin-left: 16px;  font-size: 14px; font:Noto Sans; font-weight:700; text-transform: unset;"
                     role="button">
                     Sign Up
                 </a>
@@ -31,13 +31,31 @@
                 <a style="font-size: 7px; display:flex; align-items: center; margin-left: 10px;">some image</a>
                 <input style="margin-left: 5px; width:120px; color:#0079D3;" type="range" value="10">
             </div>
-            <div style="display:flex; align-items:center;">
-                <button id="USER_DROPDOWN_ID"
-                    style="margin-left:12px; min-height: 32px; border-radius: 4px 4px 0 0 ; border-color: EDEFF1; outline: none; width:70px; border: 1px solid transparent; "
-                    aria-expanded="TRUE" aria-haspopup="TRUE">
+            <div class="dropdown" style="display:inline-block; align-items:center;">
+                <button class="dropdown-button" aria-expanded="TRUE" aria-haspopup="TRUE">
                     Some Dropdown
                 </button>
+                <div class="dropdown-menu" role="menu" style="position:fixed; right:5px; top:39.6333px;">
+                    <ul>
+                        <li>
+                            <div style="width:60px;">
+                                some icon
+                            </div>
+                            <div style="width:100%; font-size: 18px;">
+                                some Dropdown
+                            </div>
+                        </li>
+                        <li>
+                            <div style="width:60px;">
+                                some icon
+                            </div>
+                            <div style="width:100%; font-size: 18px;">
+                                some Dropdown
+                            </div>
+                    </ul>
+                </div>
             </div>
         </div>
+
     </header>
 </div>
