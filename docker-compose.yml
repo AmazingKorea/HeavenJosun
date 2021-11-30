@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+
+  heavenjosun:
+    build: .
+    image: heavenjosun
+    ports: 
+     - 3000:3000
+
+  mysql:
+    # 필요한가?
+    container_name: mysql
+    image: mysql:5.7
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    env_file: .env
+    environment:
+      - TZ=Asia/Seoul
+    volumes:
+      - mysql:/var/lib/mysql
+      - ./config/mysql/:/etc/mysql/conf.d
+
+# volume이 필요할까.
+volumes:
+  mysql:
