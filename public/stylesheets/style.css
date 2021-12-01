@@ -25,6 +25,20 @@ input[type="search"] {
   padding : 0;
 }
 
+.feed_HeadLine {
+  display: inline-flex;
+  color: #20f0e4;
+  float: left;
+  font-size: 14px;
+  margin: 15px 10px;
+}
+.feed_HeadLine span {
+  color: #000000;
+}
+.feed_HeadLine span + span {
+  color: #f62525;
+}
+
 ul li {
   list-style:none;
   height : 40px;
