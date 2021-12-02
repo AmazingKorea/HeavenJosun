@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    HeavnJosun
+  </title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+  <div class="_1VP69d9lk-Wk9zokOaylL " style="--background:#DAE0E6;--canvas:#DAE0E6">
+    <%- include ('header') %>
+      <div class="filter_Compo">
+        <%- include ('filterbar') %>
+      </div>
+      <% for (var i = 0; i < feeds.length; i++) { %>
+        <div class="feed_ListItemCompo">
+          <a href="/feeds/<%= feeds[i].id %>">
+            <%- include ('feedlist', { feed: feeds[i] }) %>
+          </a>
+        </div>
+      <% } %>
+    </body>
+</html>

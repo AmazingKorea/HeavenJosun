@@ -1,5 +1,15 @@
 import { Response } from 'express';
-import { Body, BodyParam, Controller, Post, Redirect, Res, Session } from 'routing-controllers';
+import {
+  Body,
+  BodyParam,
+  Controller,
+  Get,
+  Post,
+  Redirect,
+  Render,
+  Res,
+  Session,
+} from 'routing-controllers';
 import { Service } from 'typedi';
 import UserService from '../../application/UserService';
 import UserRegisterDTO from './UserRegisterDTO';
@@ -58,7 +68,7 @@ export default class UserController {
       const found = await this.userService.getUserByUsernameAndPassword(username, password);
       session.user = found;
       // 여기서 예외가 발생하지 않았으면 정상적으로 찾은 것
-      res.redirect('/?msg=정상적으로 로그인되었습니다.');
+      res.redirect('/feeds?msg=정상적으로 로그인되었습니다.');
     } catch (e) {
       // 로그인의 경우 ajax로 하는 게 맞긴 하다.
       // 로그인 페이지로 리다이렉트

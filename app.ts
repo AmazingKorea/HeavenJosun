@@ -32,7 +32,7 @@ import UserRepository from './src/domain/repositories/UserRepository';
   expressApp.use(json());
   expressApp.use(urlencoded({ extended: true }));
   // expressApp.use(cookieParser()); // 아마 필요 없을듯?
-  expressApp.use(express.static(path.join(__dirname, 'public')));
+  expressApp.use(express.static(path.join(__dirname, '/public')));
   expressApp.use(
     session({
       secret: 'helloworld',
@@ -54,7 +54,7 @@ import UserRepository from './src/domain/repositories/UserRepository';
     RequestContext.create(orm.em, next);
   });
 
-  expressApp.use(async (req, res, next) => {
+  expressApp.use(async (req, _, next) => {
     // 하.. 개노답.. detached가 따로 없으니 그냥 신규인줄 알고 PK id가 있어도 저장하려고 들음.
     // @ts-ignore
     if (req.session && req.session.user && req.session.user.id) {

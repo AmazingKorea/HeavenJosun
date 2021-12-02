@@ -30,6 +30,12 @@ export class FeedController {
     this.feedService = feedService;
   }
 
+  @Get('/write')
+  @Render('feedwrite')
+  async renderFeedWritePage() {
+    // todo: nothing;
+  }
+
   /**
    * 피드 등록
    *
@@ -59,14 +65,14 @@ export class FeedController {
   }
 
   @Get('/:id')
-  @Render('home')
+  @Render('feeddetail')
   async getFeedById(@Param('id') id: number) {
     const feed = await this.feedService.getFeedById(id);
-    return { feed };
+    return { feed, title: 'HeavenJosun' };
   }
 
   @Get('/')
-  @Render('welcome')
+  @Render('index')
   async getFeedsFrom() {
     const listOfFeeds = await this.feedService.getFeedsFrom(0, 0, 0);
     return { feeds: listOfFeeds };
