@@ -9,6 +9,7 @@ import { MikroORM, RequestContext } from '@mikro-orm/core';
 import FeedRepository from './src/domain/repositories/FeedRepository';
 import mikroOrmConfig from './mikro-orm.config';
 import UserRepository from './src/domain/repositories/UserRepository';
+import CommentRepository from './src/domain/repositories/CommentRepository';
 
 (async () => {
   // dirname
@@ -48,6 +49,7 @@ import UserRepository from './src/domain/repositories/UserRepository';
   // Repository는 직접 의존성 명시
   TypeDIContainer.set(UserRepository, userRepository);
   TypeDIContainer.set(FeedRepository, new FeedRepository(orm));
+  TypeDIContainer.set(CommentRepository, new CommentRepository(orm));
 
   // 요청 별로 DB context를 생성한다.
   expressApp.use((_, __, next) => {
@@ -61,6 +63,7 @@ import UserRepository from './src/domain/repositories/UserRepository';
       try {
         // @ts-ignore
         req.session.user = await userRepository.getUserById(req.session.user.id);
+        console.log("user's inserted");
       } catch (e) {
         // @ts-ignore
         req.session.user = undefined; // 여기서 오류나면 Uncaught Promise로 서버가 죽음

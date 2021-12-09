@@ -33,21 +33,19 @@ export class CommentController {
   }
 
   @Post('/')
-  @Render('feeddetail')
+  @Redirect('/')
   async createComment(
     @SessionParam('user') authenticatedUser: User,
     @Body() createDTO: CommentCreateOrUpdateDTO,
     @Req() req,
   ): Promise<void> {
     logger('createDTO:', createDTO);
-    const { content } = createDTO;
-    const toCreate = new Comment(content);
     logger('authenticatedUser:', authenticatedUser);
     logger(req.session);
 
     if (!authenticatedUser) throw new Error('로그인되지 않은 사용자입니다.');
 
-    const created = await this.commentService.createComment(authenticatedUser, toCreate);
+    const created = await this.commentService.createComment(authenticatedUser, createDTO);
     logger('created:', created);
   }
 

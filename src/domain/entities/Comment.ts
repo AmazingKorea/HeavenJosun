@@ -43,7 +43,9 @@ export default class Comment {
 
   // MikroORM은 constructor로 객체를 생성하지 않으므로 required property를 담는 생성자가 필요 없다.
   // https://mikro-orm.io/docs/entity-constructors/
-  constructor(content: string) {
+  constructor(owner: User, feed: Feed, content: string) {
+    this.user = owner;
+    this.feed = feed;
     this.content = content;
   }
 

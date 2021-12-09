@@ -3,19 +3,24 @@ import Comment from '../domain/entities/Comment.js';
 import Feed from '../domain/entities/Feed.js';
 import User from '../domain/entities/User.js';
 import CommentRepository from '../domain/repositories/CommentRepository.js';
+import FeedRepository from '../domain/repositories/FeedRepository.js';
 import CommentCreateOrUpdateDTO from '../presentation/comments/CommentCreateOrUpdateDTO.js';
 
 @Service()
 class CommentService {
   private commentRepository: CommentRepository;
+  private feedRepository: FeedRepository;
 
-  constructor(commentRepository: CommentRepository) {
+  constructor(commentRepository: CommentRepository, feedRepository: FeedRepository) {
     this.commentRepository = commentRepository;
+    this.feedRepository = feedRepository;
   }
 
-  async createComment(owner: User, comment: Comment): Promise<Comment> {
-    await this.commentRepository.createComment(owner, comment);
-    return comment;
+  async createComment(owner: User, commentDto: CommentCreateOrUpdateDTO): Promise<Comment> {
+    const { content, feed_id: feedId } = commentDto;
+    const feed = await this.feedRepository.getFeedById(Number.parseInt(feedId));
+    const comment = new Comment(owner, feed, content);
+    return await this.commentRepository.createComment(comment);
   }
 
   async getCommentByFeedId(id: number): Promise<Array<Comment>> {

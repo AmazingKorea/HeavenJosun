@@ -1,8 +1,6 @@
 import { MikroORM } from '@mikro-orm/core';
 import { EntityRepository } from '@mikro-orm/mysql';
 import Comment from '../entities/Comment.js';
-import Feed from '../entities/Feed.js';
-import User from '../entities/User.js';
 
 class CommentRepository {
   private repo: EntityRepository<Comment>;
@@ -11,9 +9,8 @@ class CommentRepository {
     this.repo = orm.em.getRepository(Comment);
   }
 
-  async createComment(owner: User, comment: Comment): Promise<Comment> {
+  async createComment(comment: Comment): Promise<Comment> {
     const toCreate = this.repo.create(comment);
-    toCreate.user = owner;
     console.log('toCreate:', toCreate);
     await this.repo.persist(toCreate).flush();
     return toCreate;

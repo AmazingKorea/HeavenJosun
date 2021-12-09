@@ -25,13 +25,11 @@ class FeedService {
 
   async getFeedById(id: number): Promise<Feed> {
     const feed = await this.feedRepository.getFeedById(id);
-    console.log('found:', feed);
     return feed;
   }
 
   async getFeedsFrom(begin, count, sort): Promise<Array<Feed>> {
     const feeds = await this.feedRepository.getFeedsFrom(begin, count, sort);
-    console.log('found:', feeds);
     return feeds;
   }
 
