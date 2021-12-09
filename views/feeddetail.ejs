@@ -19,8 +19,12 @@
             <a href="/signup" class="feed_signup_button" role="button">Sign Up</a>
           </div>
         </div>
-        <div class="comment_Compo">
-          <%- include ('comments') %>
+        <div class="comment_container">
+          <%# for (var j = 0; j < comments.length; j++) { %>
+            <div class="comment_Compo">
+              <%- include ('comments') %>
+            </div>
+          <%# } %>
         </div>
       </div>
     </div> 

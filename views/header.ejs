@@ -38,6 +38,22 @@
     </div>
     <div style="margin-left: 10px; display: inline-flex">
       <div style="display: flex">
+        <% if (locals.user) { %>
+        <a
+          href="/signout"
+          class="button login-button"
+          style="
+            margin-left: 16px;
+            font-size: 14px;
+            font: Noto Sans;
+            font-weight: 700;
+            text-transform: unset;
+          "
+          role="button"
+        >
+          Sign Out
+        </a>
+        <% } else { %>
         <a
           href="/login"
           class="button login-button"
@@ -66,6 +82,7 @@
         >
           Sign Up
         </a>
+        <% } %>
       </div>
       <div style="display: inline-flex">
         <a style="font-size: 7px; display: flex; align-items: center; margin-left: 10px"

@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "DEBUG=* tsc-watch --onSuccess \"node build/app.js\"",
-    "initdb": "DEBUG=initDB npx ts-node initializeDBTable.ts",
+    "start": "tsc-watch --onSuccess \"node build/app.js\"",
+    "initdb": "npx ts-node initializeDBTable.ts",
     "mysql": "docker-compose -f ./docker-compose.mysql.yml up",
     "build": "tsc",
     "test": "jest"

@@ -1,12 +1,7 @@
 <div>
-  <p>
-    She sells seashells on the seashore.
-    The shells she sells are seashells, I’m sure.
-    And if she sells seashells on the seashore,
-    Then I’m sure she sells seashore shells.
-  </p>
-  <div class="comment_comment_Compo">
-    
-  </div>
-
+  <img src="/images/user-icon.png" width="18px" alt="user-icon" />
+  <span class="name"> name<%#= comment.user.name %> </span>
+  <span class="time"> date<%#= comment.createdAt %> </span>
+  <p>content<%#= comment.content %></p>
+  <span> 0<%#= comment.votes %> </span>
 </div>

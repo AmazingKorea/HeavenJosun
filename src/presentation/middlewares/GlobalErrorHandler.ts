@@ -53,6 +53,9 @@ export class BEFORE_MIDD implements ExpressMiddlewareInterface {
    */
   use(request: any, response: any, next: (err?: any) => any): any {
     b4Logger(`${request.method} ${request.path}`);
+    if (request.session && request.session.user) {
+      response.locals.user = request.session.user;
+    }
     next();
   }
 }
