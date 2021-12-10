@@ -19,7 +19,8 @@ class TagRepository {
   }
 
   async getTagById(id: number): Promise<Tag> {
-    return await this.repo.findOne({ id }, ['tag']);
+    console.log('tag: %d', id);
+    return await this.repo.findOne({ id });
   }
 
   // TODO: 파라미터 type 결정하기

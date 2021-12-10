@@ -38,4 +38,7 @@ export default class FeedCreateOrUpdateDTO {
   // Required
   @IsString()
   body: string;
+
+  @IsString()
+  tag_id: string;
 }

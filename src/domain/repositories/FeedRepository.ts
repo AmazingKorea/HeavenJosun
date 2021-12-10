@@ -2,6 +2,7 @@ import { MikroORM, QueryOrder } from '@mikro-orm/core';
 import { EntityRepository } from '@mikro-orm/mysql';
 import Feed from '../entities/Feed.js';
 import User from '../entities/User.js';
+import Tag from '../entities/Tag.js';
 
 class FeedRepository {
   // MikroORM 구현체
@@ -12,9 +13,10 @@ class FeedRepository {
     this.repo = orm.em.getRepository(Feed);
   }
 
-  async createFeed(owner: User, feed: Feed): Promise<Feed> {
+  async createFeed(owner: User, feed: Feed, tag: Tag): Promise<Feed> {
     const toCreate = this.repo.create(feed);
     toCreate.user = owner;
+    toCreate.tag = tag;
     console.log('toCreate:', toCreate);
     await this.repo.persist(toCreate).flush();
     return toCreate;

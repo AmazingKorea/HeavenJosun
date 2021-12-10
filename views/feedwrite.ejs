@@ -18,6 +18,13 @@
             <input name="title" type="text" class="text-input" style="background-color: #FFFFFF; height:100%; width:100%"
               placeholder="Title" id="title">
           </div>
+          <select class="form-control form-control-sm" name="tag_id">
+            <% for (var i = 0; i < tags.length; i++) { %>
+              <option value="<%= tags[i].id %>">
+                <%= tags[i].tagname %>
+              </option>
+            <% } %>
+          </select>
           <textarea id="summernote" name="body"></textarea>
           <div style="height:40px;margin-top:0px; display:inline-flex; align-items: center; width:100%;">
             <div style="width:70%">

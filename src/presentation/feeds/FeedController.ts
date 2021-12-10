@@ -17,6 +17,7 @@ import {
 import { Service } from 'typedi';
 import CommentService from '../../application/CommentService.js';
 import FeedService from '../../application/FeedService.js';
+import TagService from '../../application/TagService.js';
 
 import Feed from '../../domain/entities/Feed.js';
 import User from '../../domain/entities/User.js';
@@ -30,16 +31,20 @@ const logger = debug('heavenJosun:feedCon');
 export class FeedController {
   private feedService: FeedService;
   private commentService: CommentService;
+  private tagService: TagService;
 
-  constructor(feedService: FeedService, commentService: CommentService) {
+  constructor(feedService: FeedService, commentService: CommentService, tagService: TagService) {
     this.feedService = feedService;
     this.commentService = commentService;
+    this.tagService = tagService;
   }
 
   @Get('/write')
   @Render('feedwrite')
   async renderFeedWritePage() {
-    // todo: nothing;
+    const listOfTags = await this.tagService.getAllTags(0, 0, 0);
+    logger('tag list:', listOfTags);
+    return { tags: listOfTags };
   }
 
   /**
@@ -56,13 +61,11 @@ export class FeedController {
     @Body() createDTO: FeedCreateOrUpdateDTO,
   ): Promise<void> {
     logger('createDTO:', createDTO);
-    const { title, body } = createDTO;
-    const toCreate = new Feed(title, body);
     logger('authenticatedUser:', authenticatedUser);
 
     if (!authenticatedUser) throw new Error('로그인되지 않은 사용자입니다.');
 
-    const created = await this.feedService.createFeed(authenticatedUser, toCreate);
+    const created = await this.feedService.createFeed(authenticatedUser, createDTO);
     logger('created:', created); // id가 부여돼있다. (flush하면서 db 상태를 가져오는 것도 하는듯.)
   }
 
@@ -73,6 +76,7 @@ export class FeedController {
     const commentsByFeedId = await this.commentService.getCommentsByFeedId(id);
     res.locals.feedId = id; // 댓글 작성용
     const commentsCount = await this.commentService.getCommentsCountByFeedId(id);
+    const listOfTags = await this.tagService.getAllTags(0, 0, 0);
     return {
       title: 'HeavenJosun',
       feed: {
@@ -86,13 +90,20 @@ export class FeedController {
         createdAt: moment(comment.createdAt).fromNow(),
         //updatedAt: moment(comment.updatedAt).fromNow(),
       })),
+      tags: listOfTags,
     };
   }
 
   @Get('/')
   @Render('index')
-  async getFeedsFrom(@QueryParam('msg') msg: string, @Res() res) {
+  async getFeedsFrom(
+    @QueryParam('msg') msg: string,
+    @QueryParam('order') order: string,
+    @QueryParam('tag') tag: string,
+    @Res() res,
+  ) {
     const listOfFeeds = await this.feedService.getFeedsFrom(0, 0, 0);
+    const listOfTags = await this.tagService.getAllTags(0, 0, 0);
     res.locals.msgType = 'info';
     res.locals.msg = msg;
 
@@ -110,6 +121,7 @@ export class FeedController {
         createdAt: moment(feed.createdAt).fromNow(),
         //updatedAt: moment(feed.updatedAt).fromNow(),
       })),
+      tags: listOfTags,
     };
   }
 

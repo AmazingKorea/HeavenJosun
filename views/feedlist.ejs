@@ -32,7 +32,7 @@
         <img src="/images/user-icon.png" width="18px" alt="user-icon" />
         <span style="font-size: 12px"> <%= feed.user.name %> </span>
         <span style="color: #c2c2c2; font-size: 12px"> <%= feed.createdAt %> </span>
-        <img src="/images/문화tag.png" alt="문화tag" />
+        <span style="font-size: 12px"> <%= feed.tag.tagname %> </span>
       </div>
       <div style="margin: 10px 0px">
         <p style="font-size: 20px; margin: 10px 30px 0px 0px"><%= feed.title %></p>
@@ -68,6 +68,12 @@
               id="title"
             />
           </div>
+          <select class="form-control form-control-sm" name="tag_id">
+            <option value="<%= feed.tag.id %>"><%= feed.tag.tagname %></option>
+            <% for (var i = 0; i < tags.length; i++) { %> <% if (feed.tag.id != tags[i].id) { %>
+            <option value="<%= tags[i].id %>"><%= tags[i].tagname %></option>
+            <% } %> <% } %>
+          </select>
           <textarea id="summernote" name="body"><%= feed.body %></textarea>
           <div
             style="

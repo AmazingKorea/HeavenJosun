@@ -24,6 +24,12 @@ class TagService {
     console.log('found:', tags);
     return tags;
   }
+
+  async getFeedById(id: number): Promise<Tag> {
+    const tag = await this.tagRepository.getTagById(id);
+    return tag;
+  }
+
   // async updateTag(id: number, updateDTO: TagCreateOrUpdateDTO): Promise<Tag> {
   //   const toUpdate = await this.tagRepository.getTagById(id);
   //   if (!toUpdate) {
