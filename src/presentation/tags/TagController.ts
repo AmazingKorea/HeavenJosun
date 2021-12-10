@@ -18,9 +18,9 @@ import {
 } from 'routing-controllers';
 import { Service } from 'typedi';
 import User from '../../domain/entities/User.js';
-import Tag from '../../domain/entities/Tag.js';
+//import Tag from '../../domain/entities/Tag.js';
 import TagService from '../../application/TagService.js';
-import TagCreateOrUpdateDTO from './TagCreateOrUpdateDTO.js';
+//import TagCreateOrUpdateDTO from './TagCreateOrUpdateDTO.js';
 
 const logger = debug('heavenJosun:TagCon');
 
@@ -64,9 +64,9 @@ export default class TagController {
   //   await this.tagService.updateTag(id, updateDTO);
   // }
 
-  @Delete('/:id')
-  @Render('index')
-  async deleteTagById(@Param('id') id: number): Promise<void> {
-    await this.tagService.deleteTagById(id);
-  }
+  // @Delete('/:id')
+  // @Render('index')
+  // async deleteTagById(@Param('id') id: number): Promise<void> {
+  //   await this.tagService.deleteTagById(id);
+  // }
 }

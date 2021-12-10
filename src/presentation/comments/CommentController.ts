@@ -11,6 +11,7 @@ import {
   Redirect,
   Render,
   Req,
+  Res,
   SessionParam,
 } from 'routing-controllers';
 import { Service } from 'typedi';
@@ -33,11 +34,11 @@ export class CommentController {
   }
 
   @Post('/')
-  @Redirect('/')
   async createComment(
     @SessionParam('user') authenticatedUser: User,
     @Body() createDTO: CommentCreateOrUpdateDTO,
     @Req() req,
+    @Res() res,
   ): Promise<void> {
     logger('createDTO:', createDTO);
     logger('authenticatedUser:', authenticatedUser);
@@ -47,6 +48,8 @@ export class CommentController {
 
     const created = await this.commentService.createComment(authenticatedUser, createDTO);
     logger('created:', created);
+
+    res.redirect(`/feeds/${createDTO.feed_id}`);
   }
 
   @Get('/feeds/:id')

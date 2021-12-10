@@ -10,21 +10,26 @@
       <div class="feed_PageDetail">
         <%- include ('feedlist') %>
         <div style="margin: 0px 50px 10px 50px; width:auto; height:auto; display: flex; align-items: center;">
-          <form autocomplete="off" method="get" class="comment_typing" >
-            <input id="comment-typing" type="text" name="comments" placeholder="Log in or sign up to leave a comment"
+          <form method="post" action="/comments" autocomplete="off" class="comment_typing" id="commentForm">
+            <input name="feed_id" type="hidden" value="<%= locals.feedId %>" />
+            <input id="comment-typing" type="text" name="content" placeholder="Log in or sign up to leave a comment"
               style="padding-left:5px; -webkit-appearance: none; appearance: none; background-color: transparent; outline:none; border: none; width:100%; color:#1c1c1c; box-sizing: border-box;">
           </form>
           <div style="height:120px; display:flex; flex-direction: column; margin-left: 10px; justify-content: space-evenly;">
-            <a href="/login" class="feed_login_button" role="button">Log In</a>
-            <a href="/signup" class="feed_signup_button" role="button">Sign Up</a>
+            <% if (locals.user) { %>
+              <a href="#" onclick="document.getElementById('commentForm').submit()" class="feed_signup_button" role="button">Submit</a>
+            <% } else { %>
+              <a href="/login" class="feed_login_button" role="button">Log In</a>
+              <a href="/signup" class="feed_signup_button" role="button">Sign Up</a>
+            <% } %>
           </div>
         </div>
         <div class="comment_container">
-          <%# for (var j = 0; j < comments.length; j++) { %>
+          <% for (var i = 0; i < comments.length; i++) { %>
             <div class="comment_Compo">
-              <%- include ('comments') %>
+              <%- include ('comments', { comment: comments[i] }) %>
             </div>
-          <%# } %>
+          <% } %>
         </div>
       </div>
     </div> 

@@ -8,11 +8,13 @@ import {
   Put,
   Delete,
   Render,
+  Res,
   QueryParam,
   Redirect,
   SessionParam,
 } from 'routing-controllers';
 import { Service } from 'typedi';
+import CommentService from '../../application/CommentService.js';
 import FeedService from '../../application/FeedService.js';
 
 import Feed from '../../domain/entities/Feed.js';
@@ -25,9 +27,11 @@ const logger = debug('heavenJosun:feedCon');
 @Controller('/feeds')
 export class FeedController {
   private feedService: FeedService;
+  private commentService: CommentService;
 
-  constructor(feedService: FeedService) {
+  constructor(feedService: FeedService, commentService: CommentService) {
     this.feedService = feedService;
+    this.commentService = commentService;
   }
 
   @Get('/write')
@@ -56,6 +60,7 @@ export class FeedController {
     const { title, body } = createDTO;
     const toCreate = new Feed(title, body);
     logger('authenticatedUser:', authenticatedUser);
+    console.log(1);
 
     // 이건 middleware로 authenticatedPath를 검증해서 미리 오류로 보내는 것도 좋을듯.
     if (!authenticatedUser) throw new Error('로그인되지 않은 사용자입니다.');
@@ -66,15 +71,19 @@ export class FeedController {
 
   @Get('/:id')
   @Render('feeddetail')
-  async getFeedById(@Param('id') id: number) {
+  async getFeedById(@Param('id') id: number, @Res() res) {
     const feed = await this.feedService.getFeedById(id);
-    return { feed, title: 'HeavenJosun' };
+    const commentsByFeedId = await this.commentService.getCommentsByFeedId(id);
+    res.locals.feedId = id; // 댓글 작성용
+    return { feed, title: 'HeavenJosun', comments: commentsByFeedId };
   }
 
   @Get('/')
   @Render('index')
-  async getFeedsFrom() {
+  async getFeedsFrom(@QueryParam('msg') msg: string, @Res() res) {
     const listOfFeeds = await this.feedService.getFeedsFrom(0, 0, 0);
+    res.locals.msgType = 'info';
+    res.locals.msg = msg;
     return { feeds: listOfFeeds };
   }
 

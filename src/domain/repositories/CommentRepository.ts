@@ -16,9 +16,8 @@ class CommentRepository {
     return toCreate;
   }
 
-  // TODO: 파라미터 type 결정하기, 이게 맞나??
   async getCommentByFeedId(id: number): Promise<Array<Comment>> {
-    return await this.repo.find({ id }, ['feed']);
+    return await this.repo.find({ feed: id }, ['user']);
   }
 
   async getCommentById(id: number): Promise<Comment> {
@@ -26,9 +25,7 @@ class CommentRepository {
   }
 
   async updateComment(comment: Comment): Promise<Comment> {
-    // flush는 특정 Entity의 변경분을 DB에 반영하는 것이 아닌,
-    // 현재 req에서 발생한 모든 객체의 변경분을 반영한다고 한다.
-    await this.repo.flush(); // 흠.. 구현이 조금 이상하긴 하다.
+    await this.repo.flush();
     return comment;
   }
 

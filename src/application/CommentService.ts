@@ -1,6 +1,5 @@
 import { Service } from 'typedi';
 import Comment from '../domain/entities/Comment.js';
-import Feed from '../domain/entities/Feed.js';
 import User from '../domain/entities/User.js';
 import CommentRepository from '../domain/repositories/CommentRepository.js';
 import FeedRepository from '../domain/repositories/FeedRepository.js';
@@ -23,9 +22,8 @@ class CommentService {
     return await this.commentRepository.createComment(comment);
   }
 
-  async getCommentByFeedId(id: number): Promise<Array<Comment>> {
+  async getCommentsByFeedId(id: number): Promise<Array<Comment>> {
     const comments = await this.commentRepository.getCommentByFeedId(id);
-    console.log('found:', comments);
     return comments;
   }
 
@@ -54,7 +52,6 @@ class CommentService {
     try {
       return await this.commentRepository.deleteCommentById(id);
     } catch (e) {
-      // 얘만 예외처리한 이유? 글쎄.
       throw new Error(`Comment ID=${id} 삭제 중 오류가 발생했습니다.`);
     }
   }

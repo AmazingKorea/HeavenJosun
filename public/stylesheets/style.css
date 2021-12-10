@@ -1,16 +1,42 @@
+@keyframes fadein {
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}
+@-moz-keyframes fadein { /* Firefox */
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}
+@-webkit-keyframes fadein { /* Safari and Chrome */
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}
+@-o-keyframes fadein { /* Opera */
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}
+
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
-  text-decoration:none !important;
-}
-
-
-a:hover {
-  text-decoration:none !important 
-}
+a {color: black; text-decoration:none !important;}
 
 input[type="search"] {
   -webkit-appearance: none;
@@ -162,7 +188,7 @@ html, body {
   border: 1px solid #EDEFE1; 
 }
 
-.dropdown-menu {
+.dropdown-menu-fixed {
   background-color: #FFFFFF;
   display: none;
   width: 211px;
@@ -171,7 +197,7 @@ html, body {
 }
 
 
-.dropdown:hover .dropdown-menu {
+.dropdown:hover .dropdown-menu-fixed {
   display: block;
 }
 
@@ -308,4 +334,22 @@ html, body {
 
 .comment_comment_Compo {
   margin: 20px 100px 20px 50px;
+}
+
+.site_alert_box {
+  top: 5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: fadein 2s;
+  -moz-animation: fadein 2s; /* Firefox */
+  -webkit-animation: fadein 2s; /* Safari and Chrome */
+  -o-animation: fadein 2s; /* Opera */
+}
+
+.modify-button:hover {
+  color : #0079D3
+}
+
+.delete-button:hover {
+  color : #0079D3
 }
