@@ -1,7 +1,7 @@
 import { Service } from 'typedi';
-// import Tag from '../domain/entities/Tag.js';
-// import TagRepository from '../domain/repositories/TagRepository.js';
-// import TagCreateOrUpdateDTO from '../presentation/tags/TagCreateOrUpdateDTO.js';
+import Tag from '../domain/entities/Tag.js';
+import TagRepository from '../domain/repositories/TagRepository.js';
+import TagCreateOrUpdateDTO from '../presentation/tags/TagCreateOrUpdateDTO.js';
 
 /*
   CRUD 서비스이므로 메소드는 C>R>U>D 순서로 정의한다.
@@ -11,19 +11,19 @@ import { Service } from 'typedi';
 */
 @Service()
 class TagService {
-  // private tagRepository: TagRepository;
-  // constructor(tagRepository: TagRepository) {
-  //   this.tagRepository = tagRepository;
-  // }
-  // async createTag(tag: Tag): Promise<Tag> {
-  //   await this.tagRepository.createTag(tag);
-  //   return tag;
-  // }
-  // async getAllTags(begin, count, sort): Promise<Array<Tag>> {
-  //   const tags = await this.tagRepository.getAllTags(begin, count, sort);
-  //   console.log('found:', tags);
-  //   //return tags;
-  // }
+  private tagRepository: TagRepository;
+  constructor(tagRepository: TagRepository) {
+    this.tagRepository = tagRepository;
+  }
+  async createTag(tag: Tag): Promise<Tag> {
+    await this.tagRepository.createTag(tag);
+    return tag;
+  }
+  async getAllTags(begin, count, sort): Promise<Array<Tag>> {
+    const tags = await this.tagRepository.getAllTags(begin, count, sort);
+    console.log('found:', tags);
+    return tags;
+  }
   // async updateTag(id: number, updateDTO: TagCreateOrUpdateDTO): Promise<Tag> {
   //   const toUpdate = await this.tagRepository.getTagById(id);
   //   if (!toUpdate) {
@@ -32,14 +32,14 @@ class TagService {
   //   toUpdate.updateTag(updateDTO.tagname);
   //   return await this.tagRepository.updateTag(toUpdate);
   // }
-  // async deleteTagById(id: number): Promise<boolean> {
-  //   try {
-  //     return await this.tagRepository.deleteTagById(id);
-  //   } catch (e) {
-  //     // 얘만 예외처리한 이유? 글쎄.
-  //     throw new Error(`Tag ID=${id} 삭제 중 오류가 발생했습니다.`);
-  //   }
-  // }
+  async deleteTagById(id: number): Promise<boolean> {
+    try {
+      return await this.tagRepository.deleteTagById(id);
+    } catch (e) {
+      // 얘만 예외처리한 이유? 글쎄.
+      throw new Error(`Tag ID=${id} 삭제 중 오류가 발생했습니다.`);
+    }
+  }
 }
 
 export default TagService;

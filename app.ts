@@ -10,6 +10,7 @@ import FeedRepository from './src/domain/repositories/FeedRepository';
 import mikroOrmConfig from './mikro-orm.config';
 import UserRepository from './src/domain/repositories/UserRepository';
 import CommentRepository from './src/domain/repositories/CommentRepository';
+import TagRepository from './src/domain/repositories/TagRepository';
 
 (async () => {
   // dirname
@@ -50,6 +51,7 @@ import CommentRepository from './src/domain/repositories/CommentRepository';
   TypeDIContainer.set(UserRepository, userRepository);
   TypeDIContainer.set(FeedRepository, new FeedRepository(orm));
   TypeDIContainer.set(CommentRepository, new CommentRepository(orm));
+  TypeDIContainer.set(TagRepository, new TagRepository(orm));
 
   // 요청 별로 DB context를 생성한다.
   expressApp.use((_, __, next) => {

@@ -59,7 +59,6 @@ export class FeedController {
     const { title, body } = createDTO;
     const toCreate = new Feed(title, body);
     logger('authenticatedUser:', authenticatedUser);
-    console.log(1);
 
     if (!authenticatedUser) throw new Error('로그인되지 않은 사용자입니다.');
 

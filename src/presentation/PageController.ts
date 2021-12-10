@@ -36,4 +36,8 @@ export class PageController {
     logger('removed session & locals');
     // todo: nothing;
   }
+
+  // @Get('/tags')
+  // @Render('tagmanage')
+  // async renderTagmanagePage(@Res() res) {}
 }

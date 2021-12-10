@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HeavenJosun</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <div class="_1VP69d9lk-Wk9zokOaylL " style="--background:#DAE0E6;--canvas:#DAE0E6">
+      <%- include ('header') %>
+      <div style="display:flex;">
+        <div style="display:inline-flex;margin-left:200px; margin-top:80px; width:660px; min-height:550px; border: 1px solid #EDEFF1; background-color:#FFFFFF; border-radius: 10px;">
+          <div style="padding-top:20px;padding-left:20px; width:300px; max-width:300px">
+            <p style="font-size:24px;">Tag Management</p>
+            <div style="margin-left: 20px; margin-top: 30px;">
+              <p style="font-size:20px; color: #A5A4A4">Add New Tag</p>
+                <form style="display: inline-flex; align-items: center; justify-content: center;" action="/tags/create" method="POST">
+                  <input type="text" name="tagname" class="text-input" placeholder="Input New Tag" style="width:500px">         
+                  </input>
+                  <button type="sumbit" class="button signup-button" style="margin-left:20px; width:80px; height:40px" role="button"> 
+                    Add
+                  </button>
+                </form>
+              <p style="font-size:20px; margin-top: 30px; color:#A5A4A4;">Existing Tags</p>
+              <div style="display:inline-flex; min-width:600px; max-width: 600px; box-sizing:border-box; flex-wrap:wrap; ">
+                <% if(tags) { %>
+                  <% for (var i = 0; i < tags.length; i++) { %>
+                    <div class="tag_Compo" id="tag-<%= tags[i].id %>">
+                      <%- include ('tags', { tag: tags[i] }) %>
+                    </div>
+                  <% } %>
+                <% } %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
