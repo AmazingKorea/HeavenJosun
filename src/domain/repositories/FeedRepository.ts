@@ -32,6 +32,17 @@ class FeedRepository {
     // 'user'를 명시하지 않으면 Join되지 않고 Id만 저장된 상태로 온다.
   }
 
+  async getFeedsOrderByVotes(begin, count, sort): Promise<Array<Feed>> {
+    return await this.repo.find({}, ['user'], {
+      votes: QueryOrder.DESC,
+      createdAt: QueryOrder.DESC,
+    });
+  }
+
+  async getFeedsByTag(begin, count, sort, tag): Promise<Array<Feed>> {
+    return await this.repo.find({}, ['user'], { createdAt: QueryOrder.DESC });
+  }
+
   async updateFeed(feed: Feed): Promise<Feed> {
     // flush는 특정 Entity의 변경분을 DB에 반영하는 것이 아닌,
     // 현재 req에서 발생한 모든 객체의 변경분을 반영한다고 한다.

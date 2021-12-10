@@ -102,10 +102,21 @@ export class FeedController {
     @QueryParam('tag') tag: string,
     @Res() res,
   ) {
-    const listOfFeeds = await this.feedService.getFeedsFrom(0, 0, 0);
     const listOfTags = await this.tagService.getAllTags(0, 0, 0);
     res.locals.msgType = 'info';
     res.locals.msg = msg;
+    console.log('msg:', msg);
+    console.log('order:', order);
+    console.log('tag:', tag);
+
+    let listOfFeeds;
+    if (tag) {
+      listOfFeeds = await this.feedService.getFeedsByTag(0, 0, 0, tag);
+    } else if (order == 'hot') {
+      listOfFeeds = await this.feedService.getFeedsOrderByVotes(0, 0, 0);
+    } else {
+      listOfFeeds = await this.feedService.getFeedsFrom(0, 0, 0);
+    }
 
     for (const feed of listOfFeeds) {
       const counts = await this.commentService.getCommentsCountByFeedId(feed.id);

@@ -42,6 +42,16 @@ class FeedService {
     return feeds;
   }
 
+  async getFeedsOrderByVotes(begin, count, sort): Promise<Array<Feed>> {
+    const feeds = await this.feedRepository.getFeedsOrderByVotes(begin, count, sort);
+    return feeds;
+  }
+
+  async getFeedsByTag(begin, count, sort, tag): Promise<Array<Feed>> {
+    const feeds = await this.feedRepository.getFeedsByTag(begin, count, sort, tag);
+    return feeds;
+  }
+
   async updateFeed(id: number, updateDTO: FeedCreateOrUpdateDTO): Promise<Feed> {
     const toUpdate = await this.feedRepository.getFeedById(id);
     if (!toUpdate) {
