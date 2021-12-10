@@ -3,6 +3,7 @@ import Feed from '../domain/entities/Feed.js';
 import User from '../domain/entities/User.js';
 import FeedRepository from '../domain/repositories/FeedRepository.js';
 import FeedCreateOrUpdateDTO from '../presentation/feeds/FeedCreateOrUpdateDTO.js';
+import FeedUpdateVoteDTO from '../presentation/feeds/FeedUpdateVoteDTO.js';
 
 /*
   CRUD 서비스이므로 메소드는 C>R>U>D 순서로 정의한다.
@@ -42,9 +43,10 @@ class FeedService {
     return await this.feedRepository.updateFeed(toUpdate);
   }
 
-  async updateVoteCount(id: number, delta: number): Promise<void> {
+  async updateVoteCount(id: number, updateDTO: FeedUpdateVoteDTO): Promise<void> {
     const feed = await this.feedRepository.getFeedById(id);
-    feed.updateVoteCount(delta);
+    const { delta: delta } = updateDTO;
+    feed.updateVoteCount(Number.parseInt(delta));
     await this.feedRepository.updateFeed(feed);
   }
 

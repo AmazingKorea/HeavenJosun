@@ -24,6 +24,10 @@ class CommentRepository {
     return await this.repo.findOne({ id }, ['user']);
   }
 
+  async getCommentsCountByFeedId(feedId: number): Promise<number> {
+    return await this.repo.count({ feed: feedId });
+  }
+
   async updateComment(comment: Comment): Promise<Comment> {
     await this.repo.flush();
     return comment;
@@ -31,6 +35,7 @@ class CommentRepository {
 
   async deleteCommentById(id: number): Promise<boolean> {
     try {
+      console.log('deleteComment:', id);
       const toBeRemoved = await this.repo.findOneOrFail({ id });
       await this.repo.removeAndFlush(toBeRemoved);
       return true;

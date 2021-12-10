@@ -4,6 +4,7 @@ import User from '../domain/entities/User.js';
 import CommentRepository from '../domain/repositories/CommentRepository.js';
 import FeedRepository from '../domain/repositories/FeedRepository.js';
 import CommentCreateOrUpdateDTO from '../presentation/comments/CommentCreateOrUpdateDTO.js';
+import CommentUpdateVoteDTO from '../presentation/comments/CommentUpdateVoteDTO.js';
 
 @Service()
 class CommentService {
@@ -33,6 +34,10 @@ class CommentService {
     return comment;
   }
 
+  async getCommentsCountByFeedId(feedId: number): Promise<number> {
+    return await this.commentRepository.getCommentsCountByFeedId(feedId);
+  }
+
   async updateComment(id: number, updateDTO: CommentCreateOrUpdateDTO): Promise<Comment> {
     const toUpdate = await this.commentRepository.getCommentById(id);
     if (!toUpdate) {
@@ -42,10 +47,12 @@ class CommentService {
     return await this.commentRepository.updateComment(toUpdate);
   }
 
-  async updateVoteCount(id: number, delta: number): Promise<void> {
+  async updateVoteCount(id: number, updateDTO: CommentUpdateVoteDTO): Promise<Comment> {
     const comment = await this.commentRepository.getCommentById(id);
-    comment.updateVoteCount(delta);
+    const { delta: delta } = updateDTO;
+    comment.updateVoteCount(Number.parseInt(delta));
     await this.commentRepository.updateComment(comment);
+    return comment;
   }
 
   async deleteCommentById(id: number): Promise<boolean> {

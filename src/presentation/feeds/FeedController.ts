@@ -21,6 +21,7 @@ import FeedService from '../../application/FeedService.js';
 import Feed from '../../domain/entities/Feed.js';
 import User from '../../domain/entities/User.js';
 import FeedCreateOrUpdateDTO from './FeedCreateOrUpdateDTO.js';
+import FeedUpdateVoteDTO from './FeedUpdateVoteDTO.js';
 
 const logger = debug('heavenJosun:feedCon');
 
@@ -50,9 +51,6 @@ export class FeedController {
    */
   @Post('/')
   @Redirect('/feeds')
-  // 끔찍한 일.. JsonBody만 형변환이 됨. 아니 형변환 할 필요가 없음.
-  // BodyParam으로 받으면 형변환이 됨. (하...)
-  // try-catch로 열고 나서 수동으로 redirect를 주는 게 맞을듯?
   async createFeed(
     @SessionParam('user') authenticatedUser: User,
     @Body() createDTO: FeedCreateOrUpdateDTO,
@@ -63,7 +61,6 @@ export class FeedController {
     logger('authenticatedUser:', authenticatedUser);
     console.log(1);
 
-    // 이건 middleware로 authenticatedPath를 검증해서 미리 오류로 보내는 것도 좋을듯.
     if (!authenticatedUser) throw new Error('로그인되지 않은 사용자입니다.');
 
     const created = await this.feedService.createFeed(authenticatedUser, toCreate);
@@ -76,15 +73,19 @@ export class FeedController {
     const feed = await this.feedService.getFeedById(id);
     const commentsByFeedId = await this.commentService.getCommentsByFeedId(id);
     res.locals.feedId = id; // 댓글 작성용
+    const commentsCount = await this.commentService.getCommentsCountByFeedId(id);
     return {
       title: 'HeavenJosun',
       feed: {
         ...feed,
+        commentsCount,
         createdAt: moment(feed.createdAt).fromNow(),
+        //updatedAt: moment(feed.updatedAt).fromNow(),
       },
       comments: commentsByFeedId.map(comment => ({
         ...comment,
         createdAt: moment(comment.createdAt).fromNow(),
+        //updatedAt: moment(comment.updatedAt).fromNow(),
       })),
     };
   }
@@ -95,32 +96,38 @@ export class FeedController {
     const listOfFeeds = await this.feedService.getFeedsFrom(0, 0, 0);
     res.locals.msgType = 'info';
     res.locals.msg = msg;
+
+    for (const feed of listOfFeeds) {
+      const counts = await this.commentService.getCommentsCountByFeedId(feed.id);
+
+      // @ts-ignore
+      feed.commentsCount = counts;
+      console.log('commentsCount:', counts);
+    }
+
     return {
       feeds: listOfFeeds.map(feed => ({
         ...feed,
         createdAt: moment(feed.createdAt).fromNow(),
+        //updatedAt: moment(feed.updatedAt).fromNow(),
       })),
     };
   }
 
-  @Put('/:id')
-  async updateFeed(
-    @Param('id') id: number,
-    @Body() updateDTO: FeedCreateOrUpdateDTO,
-  ): Promise<void> {
+  @Post('/:id/put')
+  async updateFeed(@Param('id') id: number, @Body() updateDTO: FeedCreateOrUpdateDTO, @Res() res) {
     await this.feedService.updateFeed(id, updateDTO);
+    res.redirect(`/feeds/${id}`);
   }
 
-  @Put('/:id/vote')
-  async voteForFeed(@Param('id') id: number, @QueryParam('delta') delta: number) {
-    const updated = await this.feedService.updateVoteCount(id, delta);
-    return { feed: updated };
+  @Post('/:id/vote')
+  async voteForFeed(@Param('id') id: number, @Body() updateDTO: FeedUpdateVoteDTO, @Res() res) {
+    await this.feedService.updateVoteCount(id, updateDTO);
+    res.redirect(`/feeds/${id}`);
   }
 
-  // 삭제는 그냥 Redirect.
-  // 삭제 버튼을 누르면 삭제에 성공했음을 반환하고 Redirect시킴
-  @Delete('/:id')
-  @Redirect('home')
+  @Post('/:id/del')
+  @Redirect('/feeds')
   async deleteFeedById(@Param('id') id: number): Promise<void> {
     await this.feedService.deleteFeedById(id);
   }

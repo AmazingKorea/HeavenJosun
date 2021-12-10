@@ -7,8 +7,36 @@
   <body>
     <div class="_1VP69d9lk-Wk9zokOaylL " style="--background:#DAE0E6;--canvas:#DAE0E6">
       <%- include ('header') %>
-      <div class="feed_PageDetail">
+      <div class="feed_PageDetail" id="feeed-<%= locals.feedId %>">
         <%- include ('feedlist') %>
+        <% if (locals.user && locals.user.role == 'ADMIN') { %>
+          <div class="feed-show">
+            <div style="display: inline-flex">
+              <div>
+                <button
+                  onclick="$('#feeed-<%= locals.feedId %>').addClass('feed-edit-enabled')"
+                  type="button"
+                  class="modify-button"
+                  style="margin-left: 7px; background: none; border: none"
+                >
+                  <i class="fas fa-pencil-alt"></i>
+                </button>
+              </div>
+              <div>
+                <form method="post" action="/feeds/<%= locals.feedId %>/del">
+                  <button
+                    type="submit"
+                    class="delete-button"
+                    style="margin-left: 7px; background: none; border: none"
+                  >
+                    <input name="feed_id" type="hidden" value="<%= locals.feedId %>" />
+                    <i class="far fa-trash-alt"></i>
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <% } %>
         <div style="margin: 0px 50px 10px 50px; width:auto; height:auto; display: flex; align-items: center;">
           <form method="post" action="/comments" autocomplete="off" class="comment_typing" id="commentForm">
             <input name="feed_id" type="hidden" value="<%= locals.feedId %>" />
@@ -26,7 +54,7 @@
         </div>
         <div class="comment_container">
           <% for (var i = 0; i < comments.length; i++) { %>
-            <div class="comment_Compo">
+            <div class="comment_Compo" id="comment-<%= comments[i].id %>">
               <%- include ('comments', { comment: comments[i] }) %>
             </div>
           <% } %>

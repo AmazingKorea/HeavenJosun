@@ -26,21 +26,33 @@
       ></i>
     </div>
   </div>
-  <div>
+  <div class="comment-show">
     <span class="name" style="font-size: 14px; font-weight: bold"> <%= comment.user.name %> </span>
     <span class="time" style="margin-left: 10px; color: #b0b0b0"> <%= comment.createdAt %> </span>
     <p><%= comment.content %></p>
     <div style="display: inline-flex">
       <div>
-        <button type="button" class="modify-button" style="background: none; border: none">
-          <i class="far fa-thumbs-up"></i>
-        </button>
+        <form
+          method="post"
+          action="/comments/<%= comment.id %>/vote"
+          autocomplete="off"
+          class="comment_vote"
+          id="commentVoteForm"
+        >
+          <input name="delta" type="hidden" value="<%= 1 %>" />
+          <button type="submit" style="background: none; border: none">
+            <i class="far fa-thumbs-up"></i>
+          </button>
+        </form>
         <div style="display: flex; align-items: center; justify-content: center">
           <span style="font-size: 12px"> <%= comment.votes %> </span>
         </div>
       </div>
+      <% if (locals.user && ((locals.user.id == comment.user.id) || locals.user.role == 'ADMIN')) {
+      %>
       <div>
         <button
+          onclick="$('#comment-<%= comment.id %>').addClass('comment-edit-enabled')"
           type="button"
           class="modify-button"
           style="margin-left: 7px; background: none; border: none"
@@ -49,14 +61,55 @@
         </button>
       </div>
       <div>
-        <button
-          type="button"
-          class="delete-button"
-          style="margin-left: 7px; background: none; border: none"
-        >
-          <i class="far fa-trash-alt"></i>
-        </button>
+        <form method="post" action="/comments/<%= comment.id %>/del">
+          <button
+            type="submit"
+            class="delete-button"
+            style="margin-left: 7px; background: none; border: none"
+          >
+            <input name="feed_id" type="hidden" value="<%= locals.feedId %>" />
+            <i class="far fa-trash-alt"></i>
+          </button>
+        </form>
       </div>
+      <% } %>
     </div>
+  </div>
+  <div class="comment-edit">
+    <% if (locals.user && ((locals.user.id == comment.user.id) || locals.user.role == 'ADMIN')) { %>
+    <form
+      method="post"
+      action="/comments/<%= comment.id %>"
+      autocomplete="off"
+      class="comment_typing"
+    >
+      <input name="feed_id" type="hidden" value="<%= locals.feedId %>" />
+      <input
+        id="comment-typing"
+        type="text"
+        name="content"
+        value="<%= comment.content %>"
+        style="
+          padding-left: 5px;
+          -webkit-appearance: none;
+          appearance: none;
+          background-color: transparent;
+          outline: none;
+          border: none;
+          width: 100%;
+          box-sizing: border-box;
+        "
+      />
+      <button type="submit" style="margin-left: 7px; background: none; border: none">
+        <i class="fas fa-pencil-alt"></i>
+      </button>
+    </form>
+    <button
+      onclick="$('#comment-<%= comment.id %>').removeClass('comment-edit-enabled')"
+      style="margin-left: 7px; background: none; border: none"
+    >
+      <i class="fas fa-times"></i>
+    </button>
+    <% } %>
   </div>
 </div>

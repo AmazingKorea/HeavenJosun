@@ -1,23 +1,122 @@
 <div style="margin: 10px 5px 20px 10px; color: #000000">
   <div style="align-items: center; float: left; margin-top: 10px; width: 45px">
-    <span><img src="/images/upvote btn.png" alt="upvotebtn" /></span>
+    <form
+      method="post"
+      action="/feeds/<%= feed.id %>/vote"
+      autocomplete="off"
+      class="feed_vote"
+      id="voteUpForm"
+    >
+      <input name="delta" type="hidden" value="<%= 1 %>" />
+      <button type="submit" style="background: none; border: none">
+        <img src="/images/upvote btn.png" alt="upvotebtn" />
+      </button>
+    </form>
     <span style="color: #9b9b9b"> <%= feed.votes %> </span>
-    <span><img src="/images/downvote btn.png" alt="downvotebtn" /></span>
+    <form
+      method="post"
+      action="/feeds/<%= feed.id %>/vote"
+      autocomplete="off"
+      class="feed_vote"
+      id="voteDownForm"
+    >
+      <input name="delta" type="hidden" value="<%= -1 %>" />
+      <button type="submit" style="background: none; border: none">
+        <img src="/images/downvote btn.png" alt="downvotebtn" />
+      </button>
+    </form>
   </div>
-  <div style="margin-left: 60px">
-    <div style="margin-top: 5px">
-      <img src="/images/user-icon.png" width="18px" alt="user-icon" />
-      <span style="font-size: 12px"> <%= feed.user.name %> </span>
-      <span style="color: #c2c2c2; font-size: 12px"> <%= feed.createdAt %> </span>
-      <img src="/images/문화tag.png" alt="문화tag" />
+  <div class="feed-show">
+    <div style="margin-left: 60px">
+      <div style="margin-top: 5px">
+        <img src="/images/user-icon.png" width="18px" alt="user-icon" />
+        <span style="font-size: 12px"> <%= feed.user.name %> </span>
+        <span style="color: #c2c2c2; font-size: 12px"> <%= feed.createdAt %> </span>
+        <img src="/images/문화tag.png" alt="문화tag" />
+      </div>
+      <div style="margin: 10px 0px">
+        <p style="font-size: 20px; margin: 10px 30px 0px 0px"><%= feed.title %></p>
+        <p style="font-size: 14px; margin: 10px 30px 0px 0px"><%- feed.body %></p>
+      </div>
     </div>
-    <div style="margin: 10px 0px">
-      <p style="font-size: 20px; margin: 10px 30px 0px 0px"><%= feed.title %></p>
-      <p style="font-size: 14px; margin: 10px 30px 0px 0px"><%- feed.body %></p>
+    <div style="margin-left: 60px; color: #9b9b9b">
+      <img src="/images/comments.png" alt="comments" /><%= feed.commentsCount > 1 ?
+      `${feed.commentsCount} comments` : `${feed.commentsCount} comment` %>
+      <img src="/images/share.png" alt="share" />share <img src="/images/save.png" alt="save" />save
     </div>
   </div>
-  <div style="margin-left: 60px; color: #9b9b9b">
-    <img src="/images/comments.png" alt="comments" />11 comments
-    <img src="/images/share.png" alt="share" />share <img src="/images/save.png" alt="save" />save
+  <div class="feed-edit">
+    <form action="/feeds/<%= feed.id %>/put" method="POST">
+      <div style="display: flex">
+        <div
+          style="
+            padding: 10px;
+            width: 660px;
+            height: 550px;
+            border: 1px solid #edeff1;
+            background-color: #ffffff;
+            border-radius: 10px;
+          "
+        >
+          <div style="height: 50px; margin-bottom: 10px">
+            <input
+              name="title"
+              type="text"
+              class="text-input"
+              style="background-color: #ffffff; height: 100%; width: 100%"
+              value="<%= feed.title %>"
+              id="title"
+            />
+          </div>
+          <textarea id="summernote" name="body"><%= feed.body %></textarea>
+          <div
+            style="
+              height: 40px;
+              margin-top: 0px;
+              display: inline-flex;
+              align-items: center;
+              width: 100%;
+            "
+          >
+            <div style="width: 70%"></div>
+            <button
+              onclick="getData()"
+              class="button signup-button"
+              style="width: 30%; height: 40px"
+            >
+              Edit
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+    <button
+      onclick="$('#feeed-<%= feed.id %>').removeClass('feed-edit-enabled')"
+      style="margin-left: 7px; background: none; border: none"
+    >
+      <i class="fas fa-times"></i>
+    </button>
   </div>
 </div>
+
+<link
+  href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css"
+  rel="stylesheet"
+/>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+<script>
+  function getData() {
+    var text = quill.getText();
+    console.log(text);
+  }
+
+  $(document).ready(function () {
+    $('#summernote').summernote({
+      tabsize: 2,
+      height: 300,
+      minHeight: 300, // set minimum height of editor
+      maxHeight: 300, // set maximum height of editor
+    });
+  });
+</script>

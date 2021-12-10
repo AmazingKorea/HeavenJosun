@@ -1,6 +1,7 @@
 import debug from 'debug';
 import {
   Body,
+  BodyParam,
   Controller,
   Delete,
   Get,
@@ -21,6 +22,7 @@ import Comment from '../../domain/entities/Comment.js';
 import Feed from '../../domain/entities/Feed.js';
 import User from '../../domain/entities/User.js';
 import CommentCreateOrUpdateDTO from './CommentCreateOrUpdateDTO.js';
+import CommentUpdateVoteDTO from './CommentUpdateVoteDTO.js';
 
 const logger = debug('heavenJosun:commentCon');
 
@@ -65,23 +67,34 @@ export class CommentController {
     return { comments: listofComments };
   }
 
-  @Put('/:id')
+  @Post('/:id')
   async updateComment(
     @Param('id') id: number,
     @Body() updateDTO: CommentCreateOrUpdateDTO,
-  ): Promise<void> {
+    @Res() res,
+  ) {
     await this.commentService.updateComment(id, updateDTO);
+    res.redirect(`/feeds/${updateDTO.feed_id}`);
   }
 
-  @Put('/:id/vote')
-  async voteForComment(@Param('id') id: number, @QueryParam('delta') delta: number) {
-    const updated = await this.commentService.updateVoteCount(id, delta);
-    return { comment: updated };
+  @Post('/:id/vote')
+  async voteForComment(
+    @Param('id') id: number,
+    @Body() updateDTO: CommentUpdateVoteDTO,
+    @Res() res,
+  ) {
+    const updated = await this.commentService.updateVoteCount(id, updateDTO);
+    res.redirect(`/feeds/${updated.feed.id}`);
   }
 
-  @Delete('/:id')
-  // @Redirect('home')
-  async deleteCommentById(@Param('id') id: number): Promise<void> {
+  @Post('/:id/del')
+  @Redirect('home')
+  async deleteCommentById(
+    @Param('id') id: number,
+    @BodyParam('feed_id') feedId: number,
+    @Res() res,
+  ) {
     await this.commentService.deleteCommentById(id);
+    res.redirect(`/feeds/${feedId}`);
   }
 }
