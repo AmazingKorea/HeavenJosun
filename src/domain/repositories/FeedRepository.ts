@@ -39,8 +39,8 @@ class FeedRepository {
     });
   }
 
-  async getFeedsByTag(begin, count, sort, tag): Promise<Array<Feed>> {
-    return await this.repo.find({}, ['user'], { createdAt: QueryOrder.DESC });
+  async getFeedsByTag(begin, count, sort, id: number): Promise<Array<Feed>> {
+    return await this.repo.find({ tag: id }, ['user'], { createdAt: QueryOrder.DESC });
   }
 
   async updateFeed(feed: Feed): Promise<Feed> {
