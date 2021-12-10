@@ -1,4 +1,5 @@
 import debug from 'debug';
+import moment from 'moment';
 import {
   Controller,
   Param,
@@ -75,7 +76,17 @@ export class FeedController {
     const feed = await this.feedService.getFeedById(id);
     const commentsByFeedId = await this.commentService.getCommentsByFeedId(id);
     res.locals.feedId = id; // 댓글 작성용
-    return { feed, title: 'HeavenJosun', comments: commentsByFeedId };
+    return {
+      title: 'HeavenJosun',
+      feed: {
+        ...feed,
+        createdAt: moment(feed.createdAt).fromNow(),
+      },
+      comments: commentsByFeedId.map(comment => ({
+        ...comment,
+        createdAt: moment(comment.createdAt).fromNow(),
+      })),
+    };
   }
 
   @Get('/')
@@ -84,7 +95,12 @@ export class FeedController {
     const listOfFeeds = await this.feedService.getFeedsFrom(0, 0, 0);
     res.locals.msgType = 'info';
     res.locals.msg = msg;
-    return { feeds: listOfFeeds };
+    return {
+      feeds: listOfFeeds.map(feed => ({
+        ...feed,
+        createdAt: moment(feed.createdAt).fromNow(),
+      })),
+    };
   }
 
   @Put('/:id')
