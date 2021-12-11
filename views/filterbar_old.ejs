@@ -31,50 +31,26 @@
       Recent
     </a>
   </div>
-  <div
-    class="dropdown"
-    style="display: inline-flex; align-items: center; font-size: 20px; padding: 0 0; margin: 0 0"
-  >
-    <a
-      href="/feeds?order=recent"
-      class="tag tag-button"
-      style="
-        margin-left: 16px;
-        font-size: 18px;
-        font: Noto Sans;
-        font-weight: 700;
-        text-transform: unset;
-        width: 200px;
-      "
-      role="button"
+  <div class="dropdown" style="display: inline-block; align-items: center; font-size: 20px">
+    <button
+      class="dropdown-button"
+      aria-expanded="TRUE"
+      aria-haspopup="TRUE"
+      style="align-items: center; justify-content: center"
     >
-      <button
-        class="dropdown-button"
-        style="
-          margin: 0 0;
-          display: inline-flex;
-          background: none;
-          border: none;
-          padding: 0 0;
-          align-items: center;
-          justify-content: center;
-        "
-      >
-        <p style="margin: 0px 0px; display: flex; white-space: nowrap">Tag List</p>
-        <i class="fas fa-angle-down" style="margin-left: 15px"></i>
-      </button>
-    </a>
+      <i class="fas fa-angle-down"></i>
+    </button>
     <div
       class="dropdown-menu-fixed"
       role="menu"
-      style="position: fixed; right: calc(50% - 170px); top: 150px"
+      style="position: fixed; right: 5px; top: 39.6333px"
     >
       <ul>
         <% for (var i = 0; i < tags.length; i++) { %>
-        <li style="padding: 0 0; margin: 0 0">
+        <li>
           <a href="/feeds?tag=<%= tags[i].id %>" style="display: flex">
             <!-- <div style="width: 50px"><i class="fas fa-edit" style="font-size: 20px"></i></div> -->
-            <div style="width: 200px; font-size: 18px; align-items: center">
+            <div style="width: 155px; font-size: 18px; align-items: center">
               <%= tags[i].tagname %>
             </div>
           </a>

@@ -1,8 +1,9 @@
-import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import { Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/core';
 import { Expose } from 'class-transformer';
 import { IsInt, IsString } from 'class-validator';
 import User from './User';
 import Tag from './Tag';
+import Comment from './Comment';
 
 @Entity()
 export default class Feed {
@@ -21,17 +22,11 @@ export default class Feed {
   @ManyToOne({ cascade: [] })
   tag: Tag;
 
-  // 이건 아직 테스트 중
-  @Expose({ toPlainOnly: true })
-  get author(): string {
-    return this.user.name;
-  }
-
   @Property()
   @IsString()
   title: string;
 
-  @Property()
+  @Property({ length: 16000 })
   @IsString()
   body: string;
 
