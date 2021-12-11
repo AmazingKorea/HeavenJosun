@@ -1,12 +1,115 @@
-<div>
-  <p>
-    She sells seashells on the seashore.
-    The shells she sells are seashells, I’m sure.
-    And if she sells seashells on the seashore,
-    Then I’m sure she sells seashore shells.
-  </p>
-  <div class="comment_comment_Compo">
-    
+<div style="display: inline-flex">
+  <div style="margin-right: 8px">
+    <div>
+      <img src="/images/user-icon.png" width="18px" alt="user-icon" />
+    </div>
+    <div
+      style="
+        margin-top: 5px;
+        box-sizing: border-box;
+        display: inline-block;
+        margin-left: 0px;
+        vertical-align: top;
+        width: 18px;
+        justify-items: center;
+        height: calc(100% - 25px);
+      "
+    >
+      <i
+        style="
+          margin-left: 0px;
+          border-right: 2px solid #edeff1;
+          display: block;
+          height: 100%;
+          width: 55%;
+        "
+      ></i>
+    </div>
   </div>
-
+  <div class="comment-show">
+    <span class="name" style="font-size: 14px; font-weight: bold"> <%= comment.user.name %> </span>
+    <span class="time" style="margin-left: 10px; color: #b0b0b0"> <%= comment.createdAt %> </span>
+    <p><%= comment.content %></p>
+    <div style="display: inline-flex">
+      <div>
+        <form
+          method="post"
+          action="/comments/<%= comment.id %>/vote"
+          autocomplete="off"
+          class="comment_vote"
+          id="commentVoteForm"
+        >
+          <input name="delta" type="hidden" value="<%= 1 %>" />
+          <button type="submit" style="background: none; border: none">
+            <i class="far fa-thumbs-up"></i>
+          </button>
+        </form>
+        <div style="display: flex; align-items: center; justify-content: center">
+          <span style="font-size: 12px"> <%= comment.votes %> </span>
+        </div>
+      </div>
+      <% if (locals.user && ((locals.user.id == comment.user.id) || locals.user.role == 'ADMIN')) {
+      %>
+      <div>
+        <button
+          onclick="$('#comment-<%= comment.id %>').addClass('comment-edit-enabled')"
+          type="button"
+          class="modify-button"
+          style="margin-left: 7px; background: none; border: none"
+        >
+          <i class="fas fa-pencil-alt"></i>
+        </button>
+      </div>
+      <div>
+        <form method="post" action="/comments/<%= comment.id %>/del">
+          <button
+            type="submit"
+            class="delete-button"
+            style="margin-left: 7px; background: none; border: none"
+          >
+            <input name="feed_id" type="hidden" value="<%= locals.feedId %>" />
+            <i class="far fa-trash-alt"></i>
+          </button>
+        </form>
+      </div>
+      <% } %>
+    </div>
+  </div>
+  <div class="comment-edit">
+    <% if (locals.user && ((locals.user.id == comment.user.id) || locals.user.role == 'ADMIN')) { %>
+    <form
+      method="post"
+      action="/comments/<%= comment.id %>"
+      autocomplete="off"
+      class="comment_typing"
+    >
+      <input name="feed_id" type="hidden" value="<%= locals.feedId %>" />
+      <input
+        id="comment-typing"
+        type="text"
+        name="content"
+        value="<%= comment.content %>"
+        style="
+          padding-left: 5px;
+          -webkit-appearance: none;
+          appearance: none;
+          background-color: transparent;
+          outline: none;
+          border: none;
+          width: 100%;
+          box-sizing: border-box;
+        "
+      />
+      <button type="submit" style="margin-left: 7px; background: none; border: none">
+        <i class="fas fa-pencil-alt"></i>
+      </button>
+    </form>
+    <button
+      onclick="$('#comment-<%= comment.id %>').removeClass('comment-edit-enabled')"
+      style="margin-left: 7px; background: none; border: none"
+    >
+      <i class="fas fa-times"></i>
+    </button>
+    <% } %>
+  </div>
 </div>

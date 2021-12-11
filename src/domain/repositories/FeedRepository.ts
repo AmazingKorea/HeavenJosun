@@ -1,7 +1,8 @@
-import { MikroORM } from '@mikro-orm/core';
+import { MikroORM, QueryOrder } from '@mikro-orm/core';
 import { EntityRepository } from '@mikro-orm/mysql';
 import Feed from '../entities/Feed.js';
 import User from '../entities/User.js';
+import Tag from '../entities/Tag.js';
 
 class FeedRepository {
   // MikroORM 구현체
@@ -12,9 +13,10 @@ class FeedRepository {
     this.repo = orm.em.getRepository(Feed);
   }
 
-  async createFeed(owner: User, feed: Feed): Promise<Feed> {
+  async createFeed(owner: User, feed: Feed, tag: Tag): Promise<Feed> {
     const toCreate = this.repo.create(feed);
     toCreate.user = owner;
+    toCreate.tag = tag;
     console.log('toCreate:', toCreate);
     await this.repo.persist(toCreate).flush();
     return toCreate;
@@ -26,8 +28,19 @@ class FeedRepository {
 
   // TODO: 파라미터 type 결정하기
   async getFeedsFrom(begin, count, sort): Promise<Array<Feed>> {
-    return await this.repo.find({}, ['user']); // 타입이 애매해서 일단 이걸로
+    return await this.repo.find({}, ['user'], { createdAt: QueryOrder.DESC }); // 타입이 애매해서 일단 이걸로
     // 'user'를 명시하지 않으면 Join되지 않고 Id만 저장된 상태로 온다.
+  }
+
+  async getFeedsOrderByVotes(begin, count, sort): Promise<Array<Feed>> {
+    return await this.repo.find({}, ['user'], {
+      votes: QueryOrder.DESC,
+      createdAt: QueryOrder.DESC,
+    });
+  }
+
+  async getFeedsByTag(begin, count, sort, id: number): Promise<Array<Feed>> {
+    return await this.repo.find({ tag: id }, ['user'], { createdAt: QueryOrder.DESC });
   }
 
   async updateFeed(feed: Feed): Promise<Feed> {

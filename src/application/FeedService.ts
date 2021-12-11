@@ -2,7 +2,9 @@ import { Service } from 'typedi';
 import Feed from '../domain/entities/Feed.js';
 import User from '../domain/entities/User.js';
 import FeedRepository from '../domain/repositories/FeedRepository.js';
+import TagRepository from '../domain/repositories/TagRepository.js';
 import FeedCreateOrUpdateDTO from '../presentation/feeds/FeedCreateOrUpdateDTO.js';
+import FeedUpdateVoteDTO from '../presentation/feeds/FeedUpdateVoteDTO.js';
 
 /*
   CRUD 서비스이므로 메소드는 C>R>U>D 순서로 정의한다.
@@ -13,25 +15,40 @@ import FeedCreateOrUpdateDTO from '../presentation/feeds/FeedCreateOrUpdateDTO.j
 @Service()
 class FeedService {
   private feedRepository: FeedRepository;
+  private tagRepository: TagRepository;
 
-  constructor(feedRepository: FeedRepository) {
+  constructor(feedRepository: FeedRepository, tagRepository: TagRepository) {
     this.feedRepository = feedRepository;
+    this.tagRepository = tagRepository;
   }
 
-  async createFeed(owner: User, feed: Feed): Promise<Feed> {
-    await this.feedRepository.createFeed(owner, feed);
-    return feed;
+  async createFeed(owner: User, createDTO: FeedCreateOrUpdateDTO): Promise<Feed> {
+    const { title, body, tag_id } = createDTO;
+    const tag = await this.tagRepository.getTagById(Number.parseInt(tag_id));
+    console.log(12212);
+    const toCreate = new Feed(title, body);
+    const createdFeed = await this.feedRepository.createFeed(owner, toCreate, tag);
+    return createdFeed;
   }
 
   async getFeedById(id: number): Promise<Feed> {
     const feed = await this.feedRepository.getFeedById(id);
-    console.log('found:', feed);
+    console.log('feed: ', feed);
     return feed;
   }
 
   async getFeedsFrom(begin, count, sort): Promise<Array<Feed>> {
     const feeds = await this.feedRepository.getFeedsFrom(begin, count, sort);
-    console.log('found:', feeds);
+    return feeds;
+  }
+
+  async getFeedsOrderByVotes(begin, count, sort): Promise<Array<Feed>> {
+    const feeds = await this.feedRepository.getFeedsOrderByVotes(begin, count, sort);
+    return feeds;
+  }
+
+  async getFeedsByTag(begin, count, sort, tag): Promise<Array<Feed>> {
+    const feeds = await this.feedRepository.getFeedsByTag(begin, count, sort, tag);
     return feeds;
   }
 
@@ -40,13 +57,15 @@ class FeedService {
     if (!toUpdate) {
       throw new Error(`id=${id}에 대응되는 feed가 없습니다.`);
     }
-    toUpdate.updateContent(updateDTO.title, updateDTO.body);
+    const tag = await this.tagRepository.getTagById(Number.parseInt(updateDTO.tag_id));
+    toUpdate.updateContent(updateDTO.title, updateDTO.body, tag);
     return await this.feedRepository.updateFeed(toUpdate);
   }
 
-  async updateVoteCount(id: number, delta: number): Promise<void> {
+  async updateVoteCount(id: number, updateDTO: FeedUpdateVoteDTO): Promise<void> {
     const feed = await this.feedRepository.getFeedById(id);
-    feed.updateVoteCount(delta);
+    const { delta: delta } = updateDTO;
+    feed.updateVoteCount(Number.parseInt(delta));
     await this.feedRepository.updateFeed(feed);
   }
 

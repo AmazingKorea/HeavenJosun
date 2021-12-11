@@ -5,7 +5,6 @@ import {
   ExpressMiddlewareInterface,
 } from 'routing-controllers';
 import { Service } from 'typedi';
-import UserRepository from '../../domain/repositories/UserRepository';
 
 const errLogger = debug('heavenJosun:error');
 const b4Logger = debug('before');
@@ -52,7 +51,11 @@ export class BEFORE_MIDD implements ExpressMiddlewareInterface {
    * This signature is used for Express Middlewares.
    */
   use(request: any, response: any, next: (err?: any) => any): any {
-    b4Logger(`${request.method} ${request.path}`);
+    b4Logger(`hi!`);
+    // b4Logger(`${request.method} ${request.path}`);
+    if (request.session && request.session.user) {
+      response.locals.user = request.session.user;
+    }
     next();
   }
 }

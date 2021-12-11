@@ -2,6 +2,7 @@ import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { Expose } from 'class-transformer';
 import { IsInt, IsString } from 'class-validator';
 import User from './User';
+import Tag from './Tag';
 
 @Entity()
 export default class Feed {
@@ -16,6 +17,9 @@ export default class Feed {
   // 아래의 cascade는 일단 attached된 객체에 한함.
   @ManyToOne({ cascade: [] })
   user: User;
+
+  @ManyToOne({ cascade: [] })
+  tag: Tag;
 
   // 이건 아직 테스트 중
   @Expose({ toPlainOnly: true })
@@ -52,8 +56,9 @@ export default class Feed {
     this.votes += delta;
   }
 
-  public updateContent(title: string, body: string): void {
+  public updateContent(title: string, body: string, tag: Tag): void {
     this.title = title;
     this.body = body;
+    this.tag = tag;
   }
 }
