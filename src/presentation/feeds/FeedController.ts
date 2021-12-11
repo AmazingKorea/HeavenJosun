@@ -88,7 +88,7 @@ export class FeedController {
       comments: commentsByFeedId.map(comment => ({
         ...comment,
         createdAt: moment(comment.createdAt).fromNow(),
-        //updatedAt: moment(comment.updatedAt).fromNow(),
+        updatedAt: moment(comment.updatedAt).fromNow(),
       })),
       tags: listOfTags,
     };
@@ -130,7 +130,7 @@ export class FeedController {
       feeds: listOfFeeds.map(feed => ({
         ...feed,
         createdAt: moment(feed.createdAt).fromNow(),
-        //updatedAt: moment(feed.updatedAt).fromNow(),
+        updatedAt: moment(feed.updatedAt).fromNow(),
       })),
       tags: listOfTags,
     };

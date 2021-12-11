@@ -30,10 +30,17 @@
       opacity: 1;
   }
 }
-
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/notosanskr/v13/PbykFmXiEBPT4ITbgNA5Cgm203Tq4JJWq209pU0DPdWuqxJFA4GNDCBYtw.0.woff2)
+    format('woff2');
+}
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: 'Gungsuh', 'GungsuhChe', 'Noto Sans KR', sans-serif !important;
 }
 
 a {color: black; text-decoration:none !important;}
@@ -76,7 +83,6 @@ html, body {
   width: 100%;
   margin: 0;
   padding: 0;
-  font-family: IBMPlexSans, Arial, sans-serif;
   line-height: 1;
 }
 
@@ -281,7 +287,6 @@ html, body {
   height: fit-content;
   width: fit-content;
   min-width:740px;
-  padding-right: 20px;
 }
 
 /* 댓글작성 */

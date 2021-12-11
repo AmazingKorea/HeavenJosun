@@ -6,33 +6,43 @@
       autocomplete="off"
       class="feed_vote"
       id="voteUpForm"
+      style="display: flex; align-items: center; justify-content: center"
     >
       <input name="delta" type="hidden" value="<%= 1 %>" />
-      <button type="submit" style="background: none; border: none">
+      <button
+        type="submit"
+        style="display: flex; background: none; border: none; align-items: center"
+      >
         <img src="/images/upvote btn.png" alt="upvotebtn" />
       </button>
     </form>
-    <span style="color: #9b9b9b"> <%= feed.votes %> </span>
+    <span style="display: flex; color: #9b9b9b; align-items: center; justify-content: center">
+      <%= feed.votes %>
+    </span>
     <form
       method="post"
       action="/feeds/<%= feed.id %>/vote"
       autocomplete="off"
       class="feed_vote"
       id="voteDownForm"
+      style="display: flex; align-items: center; justify-content: center"
     >
       <input name="delta" type="hidden" value="<%= -1 %>" />
-      <button type="submit" style="background: none; border: none">
+      <button type="submit" style="display: flex; background: none; border: none">
         <img src="/images/downvote btn.png" alt="downvotebtn" />
       </button>
     </form>
   </div>
+
   <div class="feed-show">
     <div style="margin-left: 60px">
       <div style="margin-top: 5px">
         <img src="/images/user-icon.png" width="18px" alt="user-icon" />
         <span style="font-size: 12px"> <%= feed.user.name %> </span>
         <span style="color: #c2c2c2; font-size: 12px"> <%= feed.createdAt %> </span>
-        <span style="font-size: 12px"> <%= feed.tag.tagname %> </span>
+        <span style="font-size: 12px; border-radius: 50px; background: #edeff1; padding: 6px">
+          <%= feed.tag.tagname %>
+        </span>
       </div>
       <div style="margin: 10px 0px">
         <p style="font-size: 20px; margin: 10px 30px 0px 0px"><%= feed.title %></p>
@@ -52,10 +62,11 @@
           style="
             padding: 10px;
             width: 660px;
-            height: 550px;
+            height: 580px;
             border: 1px solid #edeff1;
             background-color: #ffffff;
             border-radius: 10px;
+            margin-bottom: 20px;
           "
         >
           <div style="height: 50px; margin-bottom: 10px">
@@ -98,7 +109,7 @@
     </form>
     <button
       onclick="$('#feeed-<%= feed.id %>').removeClass('feed-edit-enabled')"
-      style="margin-left: 7px; background: none; border: none"
+      style="margin-left: 7px; background: none; border: none; margin-left: 680px"
     >
       <i class="fas fa-times"></i>
     </button>

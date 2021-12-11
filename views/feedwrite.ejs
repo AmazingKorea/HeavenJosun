@@ -13,10 +13,10 @@
     <form action="/feeds" method="POST"> 
       <div style="display:flex">
         <div
-          style="padding:10px; margin-left:200px; margin-top:80px; width:660px; height:550px; border: 1px solid #EDEFF1; background-color:#FFFFFF; border-radius: 10px;">
+          style="padding:10px; margin-left:200px; margin-top:80px; width:660px; height:580px; border: 1px solid #EDEFF1; background-color:#FFFFFF; border-radius: 10px;">
           <div style="height:50px; margin-bottom: 10px;">
             <input name="title" type="text" class="text-input" style="background-color: #FFFFFF; height:100%; width:100%"
-              placeholder="Title" id="title">
+              placeholder="제목" id="title">
           </div>
           <select class="form-control form-control-sm" name="tag_id">
             <% for (var i = 0; i < tags.length; i++) { %>
@@ -30,7 +30,7 @@
             <div style="width:70%">
             </div>
             <button onclick="getData()" class="button signup-button" style="width:30%; height:40px;">
-              글쓰기~!
+              글 쓰기
             </button>
           </div>
         </div>
@@ -50,7 +50,7 @@
 
   $(document).ready(function() {
   $('#summernote').summernote({
-        placeholder: 'Input your contents',
+        placeholder: '본문을 입력하시오',
         tabsize: 2,
         height: 300,
         minHeight: 300,             // set minimum height of editor

@@ -2,9 +2,12 @@
   href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
   rel="stylesheet"
 />
+<link rel="preconnect" href="https://fonts.gstatic.com" />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet" />
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="https://kit.fontawesome.com/52c3c1e4d9.js" crossorigin="anonymous"></script>
+<style></style>
 <% if (locals.msg) { %>
 <div
   class="alert alert-<%= locals.msgType %> alert-dismissible site_alert_box"
@@ -40,9 +43,9 @@
           ><img src="/images/태극기.png"
         /></a>
         <a href="/feeds">
-          <span style="color: #20f0e4; font-size: 16px">Heaven</span>
+          <span style="color: #20f0e4; font-size: 16px">헤븐</span>
           <span style="color: #000000; font-size: 16px"
-            >Ko<span style="color: #f62525">rea</span></span
+            >조<span style="color: #f62525">선</span></span
           >
         </a>
       </div>
@@ -95,7 +98,7 @@
           "
           role="button"
         >
-          Log In
+          다시 왔다
         </a>
         <a
           href="/signup"
@@ -109,7 +112,7 @@
           "
           role="button"
         >
-          Sign Up
+          처음 왔다
         </a>
       </div>
       <div style="display: inline-flex">
@@ -176,7 +179,7 @@
           "
           role="button"
         >
-          Log Out
+          나가기
         </a>
         <% if (locals.user && locals.user.role == 'ADMIN') { %>
         <a
@@ -191,7 +194,7 @@
           "
           role="button"
         >
-          Submit
+          글 쓰기
         </a>
         <% } %>
       </div>
@@ -227,13 +230,13 @@
             <li>
               <a href="/feeds/write" style="display: flex">
                 <div style="width: 50px"><i class="fas fa-edit" style="font-size: 20px"></i></div>
-                <div style="width: 155px; font-size: 18px; align-items: center">Submit</div>
+                <div style="width: 155px; font-size: 18px; align-items: center">글 쓰기</div>
               </a>
             </li>
             <li>
               <a href="/tags" style="display: flex">
                 <div style="width: 50px"><i class="far fa-plus-square"></i></div>
-                <div style="width: 155px; font-size: 18px; align-items: center">Manage Tag</div>
+                <div style="width: 155px; font-size: 18px; align-items: center">태그 관리하기</div>
               </a>
             </li>
             <% } %>
@@ -242,7 +245,7 @@
                 <div style="width: 50px">
                   <i class="fas fa-sign-out-alt" style="font-size: 20px"></i>
                 </div>
-                <div style="width: 155px; font-size: 18px; align-items: center">Log out</div>
+                <div style="width: 155px; font-size: 18px; align-items: center">종료</div>
               </a>
             </li>
           </ul>
