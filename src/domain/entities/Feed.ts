@@ -1,4 +1,12 @@
-import { Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/core';
+import {
+  Cascade,
+  Collection,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryKey,
+  Property,
+} from '@mikro-orm/core';
 import { Expose } from 'class-transformer';
 import { IsInt, IsString } from 'class-validator';
 import User from './User';

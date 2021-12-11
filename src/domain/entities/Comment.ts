@@ -12,7 +12,7 @@ export default class Comment {
   @ManyToOne({ cascade: [] })
   user: User;
 
-  @ManyToOne({ cascade: [] })
+  @ManyToOne({ onDelete: 'cascade' })
   feed: Feed;
 
   @Property()
