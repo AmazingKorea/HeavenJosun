@@ -32,7 +32,7 @@ import TagRepository from './src/domain/repositories/TagRepository';
   expressApp.set('view engine', 'ejs');
   // 이게 기본으로 안 들어간다니, routing-controllers라면 해줄만한데.
   expressApp.use(json());
-  expressApp.use(urlencoded({ extended: true }));
+  expressApp.use(urlencoded({ extended: true, limit: '50mb' })); // urlencoded의 upload limit 100kb->50mb
   // expressApp.use(cookieParser()); // 아마 필요 없을듯?
   expressApp.use(express.static(path.join(__dirname, '/public')));
   expressApp.use(

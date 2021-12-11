@@ -3,7 +3,6 @@ version: "3"
 services:
 
   heavenjosun:
-    build: .
     image: seongbin9786/heavenjosun
     ports: 
      - 80:3000
