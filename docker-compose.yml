@@ -4,9 +4,9 @@ services:
 
   heavenjosun:
     build: .
-    image: heavenjosun
+    image: seongbin9786/heavenjosun
     ports: 
-     - 3000:3000
+     - 80:3000
 
   mysql:
     # 필요한가?

@@ -40,7 +40,7 @@
         <div style="margin: 0px 27px 10px 69px; width:auto; height:auto; display: flex; align-items: center;">
           <form method="post" action="/comments" autocomplete="off" class="comment_typing" id="commentForm">
             <input name="feed_id" type="hidden" value="<%= locals.feedId %>" />
-            <input disabled=<%= locals.user ? 'false' : 'true' %> id="comment-typing" type="text" name="content" placeholder="<%= locals.user ? '댓글 입력...' : '댓글을 남기시려면 로그인해주세요.'%>"
+            <input <%= locals.user ? '' : 'disabled' %> id="comment-typing" type="text" name="content" placeholder="<%= locals.user ? '댓글 입력...' : '댓글을 남기시려면 로그인해주세요.'%>"
               style="padding-left:5px; -webkit-appearance: none; appearance: none; background-color: transparent; outline:none; border: none; width:100%; color:#1c1c1c; box-sizing: border-box;">
           </form>
           <div style="height:120px; display:flex; flex-direction: column; margin-left: 10px; justify-content: space-evenly;">
